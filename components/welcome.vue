@@ -24,6 +24,7 @@
     <div :id='$style.body'>
       <div :id='$style.text'>
         <h2>Welcome to SuperGreenLab's firmware updater.</h2>
+        <i><b>Please read:</b> take into account the time to <b>reconfigure your setup</b>,<br />depending on the age of your firmware revision it <b>might reset to default</b>.</i>
         <p v-if='error'>Error!</p>
         <p v-else-if='!done'>Please wait a second while the tools downloads the required files.</p>
       </div>
