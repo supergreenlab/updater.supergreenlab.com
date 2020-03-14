@@ -25,7 +25,7 @@
       <div :id='$style.text'>
         <h2>Looking for your controller</h2>
         <div v-if='notFound'>
-          <b>Controller not found</b> by default name, please type it's <b>IP</b> address or its <b>name</b> below:
+          <b>Controller not found</b> by default name, please type it's <b>IP</b> address or its <b>name</b> below:<br />
           <input :id='$style.input' placeholder='Ex: 192.168.1.42' type='text' v-model='query' />
           <div>
             <GreenButton :enabled='true' :onClick='_onResearch'>RESEARCH</GreenButton>

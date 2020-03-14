@@ -24,7 +24,8 @@
     <div :id='$style.body'>
       <div :id='$style.text'>
         <h2>Welcome to SuperGreenLab's firmware updater.</h2>
-        <p v-if='!done'>Please wait a second while the tools downloads the required files.</p>
+        <p v-if='error'>Error!</p>
+        <p v-else-if='!done'>Please wait a second while the tools downloads the required files.</p>
       </div>
       <div :id='$style.buttons'>
         <GreenButton :enabled='done' :onClick='_onNext'>NEXT</GreenButton>
@@ -48,6 +49,9 @@ export default {
     }
   },
   computed: {
+    error() {
+      return this.$store.state.updateState == 'ERROR'
+    },
     done() {
       return this.$store.state.initState == 'OK'
     }

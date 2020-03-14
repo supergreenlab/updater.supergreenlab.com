@@ -24,7 +24,8 @@
     <div :id='$style.body'>
       <div :id='$style.text'>
         <h2>Uploading config to controller</h2>
-        <p v-if='!done'>Please wait..</p>
+        <p v-if='error'>Error!</p>
+        <p v-else-if='!done'>Please wait..</p>
       </div>
       <div :id='$style.buttons'>
         <GreenButton :enabled='done' :onClick='_onNext'>NEXT</GreenButton>
@@ -48,6 +49,9 @@ export default {
     },
   },
   computed: {
+    error() {
+      return this.$store.state.updateState == 'ERROR'
+    },
     done() {
       return this.$store.state.uploadState == 'OK'
     }

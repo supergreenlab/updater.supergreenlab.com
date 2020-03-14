@@ -20,7 +20,7 @@
   <div :id="$style.container">
     <div :id='$style.header'>
       <div :id='$style.logo'>
-        <Logo />
+        <Logo subtitle='Firmware upgrader'/>
       </div>
     </div>
     <div :id='$style.body'>
@@ -78,6 +78,7 @@ export default {
   align-items: center
 
 #logo
+  margin: 10pt
   font-size: 2em
 
 #header
