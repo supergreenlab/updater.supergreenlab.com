@@ -17,44 +17,68 @@
  -->
 
 <template>
-  <div :id='$style.container'>
-    <div>
-      <h1 :id='$style.pagenum'>5</h1>
+  <div :id="$style.container">
+    <div :id='$style.header'>
+      <div :id='$style.logo'>
+        <Logo subtitle='Firmware upgrader'/>
+      </div>
     </div>
-    <div :id='$style.body'>
-      <div :id='$style.text'>
-        <h2>Restarting controller..</h2>
+    <div :id='$style.inner'>
+      <div>
+        <h1 :id='$style.pagenum'>5</h1>
+      </div>
+      <div :id='$style.body'>
+        <div :id='$style.text'>
+          <h2>Upgrade will occur in a few seconds.</h2>
+          <p v-if='!done'><b>Leave the controller running</b>, after a few seconds it should <b>reboot again</b>, meaning that the upgrade is <b>done</b>.</p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Logo from '~/components/logo'
+
 export default {
-  mounted() {
-    this.$store.dispatch('restart')
-    setTimeout(() => {
-      document.location.href = '/done';
-    }, 5000);
+  components: {
+    Logo,
   },
 }
 </script>
 
-<style module lang=stylus>
+<style module lang="stylus">
 
 #container
+  display:flex
+  flex-direction: column
+  margin: 0 auto
+  width: 100vw
+  height: 100vh
+  display: flex
+  justify-content: center
+  align-items: center
+
+#logo
+  margin: 10pt
+  font-size: 2em
+
+#header
+  height: 50pt
+
+#body
+  flex: 1
+  display: flex
+  justify-content: center
+  flex-direction: column
+
+#inner
   display: flex
 
 #pagenum
   color: grey
   font-size: 8em
   padding: 0 10pt 0 20pt
-
-#body
-  display: flex
-  justify-content: center
-  flex-direction: column
-  color: dark-grey
 
 #text
   display: flex
@@ -63,10 +87,5 @@ export default {
 
 #text > h2
   margin: 0 0 20pt 0
-
-#buttons
-  display: flex
-  justify-content: flex-end
-  padding: 0 20pt
 
 </style>
