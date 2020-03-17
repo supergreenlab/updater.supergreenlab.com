@@ -19,8 +19,8 @@
 const newOTAServerIP = '142.93.167.50'
 const newOTAServerHostname = 'update.supergreenlab.com'
 
-const newDriverOTABaseDir = '/DriverV2Alpha'
-const newControllerOTABaseDir = '/ControllerV2Alpha'
+const newDriverOTABaseDir = '/DriverV2.1'
+const newControllerOTABaseDir = '/ControllerV2.1'
 
 export const state = () => {
   return {
