@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const newOTAServerIP = '142.93.167.50'
-const newOTAServerHostname = 'update.supergreenlab.com'
+const newOTAServerIP = '198.211.123.192'
+const newOTAServerHostname = 'update2.supergreenlab.com'
+const newMQTTServerHostname = 'mqtt://sink2.supergreenlab.com'
 
 const newDriverOTABaseDir = '/DriverV2.1'
 const newControllerOTABaseDir = '/ControllerV2.1'
@@ -144,6 +145,7 @@ export const actions = {
     try {
       await this.$axios.post(`http://${this.state.host}/s?k=OTA_SERVER_IP&v=${newOTAServerIP}`)
       await this.$axios.post(`http://${this.state.host}/s?k=OTA_SERVER_HOSTNAME&v=${newOTAServerHostname}`)
+      await this.$axios.post(`http://${this.state.host}/s?k=BROKER_URL&v=${newMQTTServerHostname}`)
 
       const { data: baseDir } = await this.$axios.get(`http://${this.state.host}/s?k=OTA_BASEDIR`)
       if (baseDir.includes('Driver')) {

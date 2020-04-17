@@ -24,7 +24,13 @@
     <div :id='$style.body'>
       <div :id='$style.text'>
         <h2>Uploading config to controller</h2>
-        <p v-if='error'>Error!</p>
+        <p v-if='error'>
+          Error!<br />
+          If you are using a v1 controller (green card, with one sensor port),<br />
+          please click <a href='javascript:void(0)' @click='_onNext'>here</a>,<br />
+          you will have to repeat the process after the upgrade.</br >
+          Contact stant over discord if you're still lost.
+        </p>
         <p v-else-if='!done'>Please wait..</p>
       </div>
       <div :id='$style.buttons'>
@@ -50,7 +56,7 @@ export default {
   },
   computed: {
     error() {
-      return this.$store.state.updateState == 'ERROR'
+      return this.$store.state.uploadState == 'ERROR'
     },
     done() {
       return this.$store.state.uploadState == 'OK'
