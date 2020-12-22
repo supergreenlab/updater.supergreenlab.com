@@ -22,6 +22,8 @@ const newMQTTServerHostname = 'mqtt://sink2.supergreenlab.com'
 
 const newDriverOTABaseDir = '/DriverV2.1'
 const newControllerOTABaseDir = '/ControllerV2.1'
+const newSoloOTABaseDir = '/SoloV2.1'
+const newPickleOTABaseDir = '/PickleV2.1'
 
 export const state = () => {
   return {
@@ -30,6 +32,12 @@ export const state = () => {
 
     configJSONController: '',
     appHTMLController: '',
+
+    configJSONSolo: '',
+    appHTMLSolo: '',
+
+    configJSONPickle: '',
+    appHTMLPickle: '',
 
     host: '',
 
@@ -48,6 +56,14 @@ export const mutations = {
   setControllerFiles(state, { config, app }) {
     state.configJSONController = config
     state.appHTMLController = app
+  },
+  setSoloFiles(state, { config, app }) {
+    state.configJSONSolo = config
+    state.appHTMLSolo = app
+  },
+  setPickleFiles(state, { config, app }) {
+    state.configJSONPickle = config
+    state.appHTMLPickle = app
   },
   setHost(state, { host }) {
     state.host = host
@@ -86,6 +102,17 @@ export const actions = {
       const controllerConfig = await this.$axios.$get(`http://${newOTAServerHostname}${newControllerOTABaseDir}/${controllerTS}/html_app/config.json`, {responseType: 'arraybuffer', headers: {'Accept': 'application/octet-stream'}})
       const controllerApp = await this.$axios.$get(`http://${newOTAServerHostname}${newControllerOTABaseDir}/${controllerTS}/html_app/app.html`, {responseType: 'arraybuffer', headers: {'Accept': 'application/octet-stream'}})
       context.commit('setControllerFiles', {config: controllerConfig, app: controllerApp})
+
+      const soloTS = await this.$axios.$get(`http://${newOTAServerHostname}${newSoloOTABaseDir}/last_timestamp`, {responseType: 'text', headers: {'Accept': 'application/octet-stream'}})
+      const soloConfig = await this.$axios.$get(`http://${newOTAServerHostname}${newSoloOTABaseDir}/${soloTS}/html_app/config.json`, {responseType: 'arraybuffer', headers: {'Accept': 'application/octet-stream'}})
+      const soloApp = await this.$axios.$get(`http://${newOTAServerHostname}${newSoloOTABaseDir}/${soloTS}/html_app/app.html`, {responseType: 'arraybuffer', headers: {'Accept': 'application/octet-stream'}})
+      context.commit('setSoloFiles', {config: soloConfig, app: soloApp})
+
+      const pickleTS = await this.$axios.$get(`http://${newOTAServerHostname}${newPickleOTABaseDir}/last_timestamp`, {responseType: 'text', headers: {'Accept': 'application/octet-stream'}})
+      const pickleConfig = await this.$axios.$get(`http://${newOTAServerHostname}${newPickleOTABaseDir}/${pickleTS}/html_app/config.json`, {responseType: 'arraybuffer', headers: {'Accept': 'application/octet-stream'}})
+      const pickleApp = await this.$axios.$get(`http://${newOTAServerHostname}${newPickleOTABaseDir}/${pickleTS}/html_app/app.html`, {responseType: 'arraybuffer', headers: {'Accept': 'application/octet-stream'}})
+      context.commit('setPickleFiles', {config: pickleConfig, app: pickleApp})
+
       context.commit('setInitState', {initState: 'OK'})
     } catch(e) {
       console.log(e)
@@ -131,6 +158,12 @@ export const actions = {
       } else if (baseDir.includes('Controller')) {
         await this.$axios.post(`http://${this.state.host}/fs/config.json`, this.state.configJSONController)
         await this.$axios.post(`http://${this.state.host}/fs/app.html`, this.state.appHTMLController)
+      } else if (baseDir.includes('Solo')) {
+        await this.$axios.post(`http://${this.state.host}/fs/config.json`, this.state.configJSONSolo)
+        await this.$axios.post(`http://${this.state.host}/fs/app.html`, this.state.appHTMLSolo)
+      } else if (baseDir.includes('Pickle')) {
+        await this.$axios.post(`http://${this.state.host}/fs/config.json`, this.state.configJSONPickle)
+        await this.$axios.post(`http://${this.state.host}/fs/app.html`, this.state.appHTMLPickle)
       }
 
       context.commit('setUploadState', {uploadState: 'OK'})
@@ -152,6 +185,10 @@ export const actions = {
         await this.$axios.post(`http://${this.state.host}/s?k=OTA_BASEDIR&v=${newDriverOTABaseDir}`)
       } else if (baseDir.includes('Controller')) {
         await this.$axios.post(`http://${this.state.host}/s?k=OTA_BASEDIR&v=${newControllerOTABaseDir}`)
+      } else if (baseDir.includes('Solo')) {
+        await this.$axios.post(`http://${this.state.host}/s?k=OTA_BASEDIR&v=${newSoloOTABaseDir}`)
+      } else if (baseDir.includes('Pickle')) {
+        await this.$axios.post(`http://${this.state.host}/s?k=OTA_BASEDIR&v=${newPickleOTABaseDir}`)
       }
       context.commit('setUpdateState', {updateState: 'OK'})
     } catch(e) {
